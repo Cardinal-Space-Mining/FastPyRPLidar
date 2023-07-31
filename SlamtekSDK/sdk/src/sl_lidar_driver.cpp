@@ -56,10 +56,11 @@ typedef decltype(nullptr) nullptr_t;
 #endif /* C++11.  */
 
 namespace sl {
+    /*
     static void printDeprecationWarn(const char* fn, const char* replacement)
     {
         fprintf(stderr, "*WARN* YOU ARE USING DEPRECATED API: %s, PLEASE MOVE TO %s\n", fn, replacement);
-    }
+    }*/
 
     static void convert(const sl_lidar_response_measurement_node_t& from, sl_lidar_response_measurement_node_hq_t& to)
     {
@@ -69,12 +70,13 @@ namespace sl {
         to.quality = (from.sync_quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT) << SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT;  //remove the last two bits and then make quality from 0-63 to 0-255
     }
 
+    /*
     static void convert(const sl_lidar_response_measurement_node_hq_t& from, sl_lidar_response_measurement_node_t& to)
     {
         to.sync_quality = (from.flag & SL_LIDAR_RESP_MEASUREMENT_SYNCBIT) | ((from.quality >> SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT) << SL_LIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
         to.angle_q6_checkbit = 1 | (((from.angle_z_q14 * 90) >> 8) << SL_LIDAR_RESP_MEASUREMENT_ANGLE_SHIFT);
         to.distance_q2 = from.dist_mm_q2 > sl_u16(-1) ? sl_u16(0) : sl_u16(from.dist_mm_q2);
-    }
+    }*/
 
     static sl_u32 _varbitscale_decode(sl_u32 scaled, sl_u32 & scaleLevel)
     {
@@ -1380,7 +1382,7 @@ namespace sl {
 
 
                     dist_q2[0] = (dist_major << 2);
-                    if ((dist_predict1 == 0xFFFFFE00) || (dist_predict1 == 0x1FF)) {
+                    if ((dist_predict1 == (int)0xFFFFFE00) || (dist_predict1 == (int)0x1FF)) {
                         dist_q2[1] = 0;
                     }
                     else {
@@ -1389,7 +1391,7 @@ namespace sl {
 
                     }
 
-                    if ((dist_predict2 == 0xFFFFFE00) || (dist_predict2 == 0x1FF)) {
+                    if ((dist_predict2 == (int)0xFFFFFE00) || (dist_predict2 == (int)0x1FF)) {
                         dist_q2[2] = 0;
                     }
                     else {

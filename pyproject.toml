@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "pybind11~=2.6.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyWeightMap"
+version = "0.0.1"
+authors = [
+  { name="William Mosier", email="willmoiser@gmail.com" },
+]
+description = "A light weight and fast occupancy grid for Python3"
+readme = "README.md"
+requires-python = ">=3.3"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[options.extras_require]
+test =  ["pytest",  "pytest-doctestplus"]
+
+[project.urls]
+"Homepage" = "https://github.com/wimos-ai/PyWeightmap"
+"Bug Tracker" = "https://github.com/wimos-ai/PyWeightmap/issues"

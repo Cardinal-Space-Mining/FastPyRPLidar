@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <memory>
+#include <cstring>
 
 #include "Lidar.h"
 
@@ -79,9 +80,8 @@ PyLidar::PyLidar(std::string my_port, uint32_t baudrate) : drv(RPlidarDriver::Cr
             drv->connect(com_port.c_str(), baudrate),
             "Could not connect to lidar. Check COM port, baudrate, and the permissions on the port.");
 
-        rplidar_response_device_info_t devinfo;
         error_chk<std::runtime_error>(
-            drv->getDeviceInfo(devinfo),
+            drv->getDeviceInfo(this->device_info),
             "Could not determine Lidar health during connection.");
         return;
     }
@@ -152,31 +152,17 @@ void PyLidar::reset() const
         "Could not reset lidar.");
 }
 
-// This function starts the motor and also begins scan
-// It requires the scanmode to use: 3 scan modes are supported: 1,2,3
-// Default mode is 2
-void PyLidar::startmotor(int my_scanmode) const
+
+void PyLidar::startmotor() const
 {
     // Starts the motor.
     error_chk<std::runtime_error>(
         drv->startMotor(),
         "Could not start lidar motor");
 
-    // For setting scanmodes
-    std::vector<RplidarScanMode> myscanModes;
-
-    /*
-    // Fetch scan modes
-    error_chk<std::runtime_error>(
-        drv->getAllSupportedScanModes(myscanModes),
-        "Could not fetch lidar scan modes");
-
-    // start scan...
-    // drv->startScan(0,1);
-    error_chk<std::runtime_error>(
-        drv->startScanExpress(false, myscanModes[my_scanmode].id),
-        "Could not fetch lidar scan modes");
-    */
+    //error_chk<std::runtime_error>(
+    //    drv->setMotorSpeed(), "Could not set speed");
+    // 
 }
 
 /*
@@ -251,7 +237,6 @@ std::pair<point *, size_t> PyLidar::get_scan_as_xy(bool filter_quality) const
         drv->ascendScanData(&nodes[0], count),
         "Could not ascendScanData.");
 
-
     // Create output buffer
     point *output(new point[count]);
 
@@ -287,4 +272,49 @@ std::pair<point *, size_t> PyLidar::get_scan_as_xy(bool filter_quality) const
         }
         return std::make_pair(output, count);
     }
+}
+
+// Device Properties
+std::string PyLidar::serial_number() const
+{
+    char arr[128] = {};
+    for (int pos = 0; pos < 16; ++pos)
+    {
+        snprintf(arr + strlen(arr), sizeof(arr) - strlen(arr), "%02X", device_info.serialnum[pos]);
+    }
+
+    return arr;
+}
+
+// Device Properties
+std::string PyLidar::firmware_version() const
+{
+    char arr[128];
+    snprintf(arr, sizeof(arr), "%d.%02d", device_info.firmware_version >> 8, device_info.firmware_version & 0xFF);
+
+    return arr;
+}
+
+// Device Properties
+std::string PyLidar::hardware_version() const
+{
+    return std::to_string((int)device_info.hardware_version);
+}
+
+std::string PyLidar::to_string() const
+{
+    char arr[2048];
+    snprintf(arr, sizeof(arr), "SLAMTEC LIDAR S/N: ");
+    for (int pos = 0; pos < 16; ++pos)
+    {
+        snprintf(arr + strlen(arr), sizeof(arr) - strlen(arr), "%02X", device_info.serialnum[pos]);
+    }
+
+    snprintf(arr + strlen(arr), sizeof(arr) - strlen(arr),
+             "\n"
+             "Firmware Ver: %d.%02d\n"
+             "Hardware Rev: %d",
+             device_info.firmware_version >> 8, device_info.firmware_version & 0xFF, (int)device_info.hardware_version);
+
+    return arr;
 }

@@ -34,9 +34,17 @@ public:
 	void stopmotor(void) const;
 
 	// starts the motor
-	void startmotor(int my_scanmode = 2) const;
+	void startmotor() const;
 
 	void reset() const;
+
+	std::string serial_number() const;
+
+	std::string firmware_version() const;
+
+	std::string hardware_version() const;
+
+	std::string to_string() const;
 
 	/*
 	 * This function will be used in fetching the scan data
@@ -53,4 +61,6 @@ private:
 	rp::standalone::rplidar::RPlidarDriver *const drv;
 
 	const std::string com_port;
+
+	rplidar_response_device_info_t device_info;
 };

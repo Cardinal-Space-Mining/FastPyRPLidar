@@ -79,4 +79,10 @@ PYBIND11_MODULE(FastRPLidar, m)
         // py::arg("self"), py::arg("filter_low_quality"
 
     );
+
+    py_lidar.def_property_readonly("serial_number", &PyLidar::serial_number, "Device serial number");
+    py_lidar.def_property_readonly("firmware_version", &PyLidar::firmware_version, "Device firmware_version");
+    py_lidar.def_property_readonly("hardware_version", &PyLidar::hardware_version, "Device hardware_version");
+
+      py_lidar.def("__str__", &PyLidar::to_string);
 }

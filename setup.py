@@ -63,7 +63,10 @@ def make_RPLidar_SDK():
     for dir in slamtek_include_dirs:
         comp.add_include_dir(dir)
 
-    objects = comp.compile(slamtek_src_files)
+    if platform.system() in ("Linux", "Darwin"):
+        objects = comp.compile(slamtek_src_files, extra_postargs=["-fPIC"])
+    else:
+        objects = comp.compile(slamtek_src_files)
 
 
     comp.create_static_lib(objects, shared_lib_name, output_dir=".")
@@ -106,7 +109,7 @@ else:
 ext_modules = [
     Pybind11Extension(
         "FastRPLidar",
-        sorted([*glob.glob("./src/PyRPLidar.cpp") ]),
+        sorted([*glob.glob("./src/*.cpp") ]),
         include_dirs = ["./src", *Slamtek_SDK_include_path],
         define_macros = [('VERSION_INFO', __version__)],
         extra_objects = [make_RPLidar_SDK()]

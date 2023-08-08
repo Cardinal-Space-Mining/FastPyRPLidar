@@ -7,7 +7,8 @@ from os.path import join as path_join
 import os
 from distutils.ccompiler import new_compiler
 
-Slamtek_SDK_include_path =  [path_join(".","SlamtekSDK","sdk","include"), path_join(".","SlamtekSDK","sdk","src")]
+#TODO Consider removing the library source path from includes and moving to the sl_* convention
+Slamtek_SDK_include_path =  [path_join(".","SlamtekSDK","sdk","include")]
 
 def get_static_lib_ext():
     if platform.system() == "Linux":
@@ -63,10 +64,14 @@ def make_RPLidar_SDK():
     for dir in slamtek_include_dirs:
         comp.add_include_dir(dir)
 
-    if platform.system() in ("Linux", "Darwin"):
-        objects = comp.compile(slamtek_src_files, extra_postargs=["-fPIC"])
-    else:
+    slamtek_src_files.sort()
+
+    if comp.compiler_type == "msvc":
+        # Position independent code is on by default
         objects = comp.compile(slamtek_src_files)
+    else:
+        # -fPIC is required for the compilation of the shared library
+        objects = comp.compile(slamtek_src_files, extra_postargs=["-fPIC"])
 
 
     comp.create_static_lib(objects, shared_lib_name, output_dir=".")
@@ -83,27 +88,6 @@ __version__ = "0.0.1"
 # Note:
 #   Sort input source files if you glob sources to ensure bit-for-bit
 #   reproducible builds (https://github.com/pybind/python_example/pull/53)
-
-#TODO: Change paths to be os independent paths using os.path
-
-"""
-slamtek_include_dirs = ["./SlamtekSDK/sdk/include", "./SlamtekSDK/sdk/src/hal",  "./SlamtekSDK/sdk/src"]
-slamtek_src_files = [*glob.glob("./SlamtekSDK/sdk/src/*.cpp"),
-                     "./SlamtekSDK/sdk/src/hal/thread.cpp"]
-
-if platform.system() == "Linux":
-    slamtek_include_dirs.append("./SlamtekSDK/sdk/src/arch/linux")
-    slamtek_src_files.extend(glob.glob("./SlamtekSDK/sdk/src/arch/linux/*.cpp"))
-elif platform.system() == "Windows":
-    slamtek_include_dirs.append("./SlamtekSDK/sdk/src/arch/win32")
-    slamtek_src_files.extend(glob.glob("./SlamtekSDK/sdk/src/arch/win32/*.cpp"))
-elif platform.system() == "Darwin":
-    slamtek_include_dirs.append("./SlamtekSDK/sdk/src/arch/macOS")
-    slamtek_src_files.extend(glob.glob("./SlamtekSDK/sdk/src/arch/macOS/*.cpp"))
-else:
-    raise OSError("Invalid OS Detected")
-"""
-
 
 
 ext_modules = [

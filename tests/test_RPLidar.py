@@ -16,11 +16,7 @@ class TestRPLidar(unittest.TestCase):
 
     def test_scan(self):
         l = RPLidar("/dev/ttyUSB0",1000000)
-
         l.start_motor()
-
-        # Time out with no motor movement
-        # Look at createLidarDriver instead?
         l.get_scanline_xy(False)
 
 

@@ -193,6 +193,8 @@ PYBIND11_MODULE(FastPyRpLidar, m)
     py_lidar.def_property_readonly("serial_number", &Lidar::serial_number, "Device serial number");
     py_lidar.def_property_readonly("firmware_version", &Lidar::firmware_version, "Device firmware_version");
     py_lidar.def_property_readonly("hardware_version", &Lidar::hardware_version, "Device hardware_version");
+    py_lidar.def_property_readonly("mac_address", &Lidar::mac_addr, "Device mac address");
+    
     py_lidar.def("get_health", &Lidar::get_health, "Returns the health of the Lidar");
 
     py_lidar.def("__str__", &Lidar::to_string);

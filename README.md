@@ -13,6 +13,7 @@ It exposes:
       * serial_number
       * firmware_version
       * hardware_version
+      * mac address
 * enum `Result_Code`
    * OK
    * FAIL_BIT

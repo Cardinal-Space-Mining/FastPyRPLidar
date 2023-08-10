@@ -9,4 +9,4 @@ Welcome to FastPyRPLidar's documentation!
 .. toctree::
    :maxdepth: 2
    
-   FastRPLidar
+   FastPyRpLidar

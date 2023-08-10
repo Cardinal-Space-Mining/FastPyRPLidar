@@ -1,5 +1,5 @@
 from __future__ import annotations
-import FastRPLidar
+import FastPyRpLidar
 import typing
 import numpy
 _Shape = typing.Tuple[int, ...]
@@ -151,17 +151,17 @@ class Result_Code():
         """
         :type: int
         """
-    ALREADY_DONE: FastRPLidar.Result_Code # value = <Result_Code.ALREADY_DONE: 32>
-    FAIL_BIT: FastRPLidar.Result_Code # value = <Result_Code.FAIL_BIT: 2147483648>
-    FORMAT_NOT_SUPPORT: FastRPLidar.Result_Code # value = <Result_Code.FORMAT_NOT_SUPPORT: 2147516421>
-    INSUFFICIENT_MEMORY: FastRPLidar.Result_Code # value = <Result_Code.INSUFFICIENT_MEMORY: 2147516422>
-    INVALID_DATA: FastRPLidar.Result_Code # value = <Result_Code.INVALID_DATA: 2147516416>
-    OK: FastRPLidar.Result_Code # value = <Result_Code.OK: 0>
-    OPERATION_FAIL: FastRPLidar.Result_Code # value = <Result_Code.OPERATION_FAIL: 2147516417>
-    OPERATION_NOT_SUPPORT: FastRPLidar.Result_Code # value = <Result_Code.OPERATION_NOT_SUPPORT: 2147516420>
-    OPERATION_STOP: FastRPLidar.Result_Code # value = <Result_Code.OPERATION_STOP: 2147516419>
-    OPERATION_TIMEOUT: FastRPLidar.Result_Code # value = <Result_Code.OPERATION_TIMEOUT: 2147516418>
-    UNKNOWN: FastRPLidar.Result_Code # value = <Result_Code.UNKNOWN: 2147516423>
+    ALREADY_DONE: FastPyRpLidar.Result_Code # value = <Result_Code.ALREADY_DONE: 32>
+    FAIL_BIT: FastPyRpLidar.Result_Code # value = <Result_Code.FAIL_BIT: 2147483648>
+    FORMAT_NOT_SUPPORT: FastPyRpLidar.Result_Code # value = <Result_Code.FORMAT_NOT_SUPPORT: 2147516421>
+    INSUFFICIENT_MEMORY: FastPyRpLidar.Result_Code # value = <Result_Code.INSUFFICIENT_MEMORY: 2147516422>
+    INVALID_DATA: FastPyRpLidar.Result_Code # value = <Result_Code.INVALID_DATA: 2147516416>
+    OK: FastPyRpLidar.Result_Code # value = <Result_Code.OK: 0>
+    OPERATION_FAIL: FastPyRpLidar.Result_Code # value = <Result_Code.OPERATION_FAIL: 2147516417>
+    OPERATION_NOT_SUPPORT: FastPyRpLidar.Result_Code # value = <Result_Code.OPERATION_NOT_SUPPORT: 2147516420>
+    OPERATION_STOP: FastPyRpLidar.Result_Code # value = <Result_Code.OPERATION_STOP: 2147516419>
+    OPERATION_TIMEOUT: FastPyRpLidar.Result_Code # value = <Result_Code.OPERATION_TIMEOUT: 2147516418>
+    UNKNOWN: FastPyRpLidar.Result_Code # value = <Result_Code.UNKNOWN: 2147516423>
     __members__: dict # value = {'OK': <Result_Code.OK: 0>, 'FAIL_BIT': <Result_Code.FAIL_BIT: 2147483648>, 'ALREADY_DONE': <Result_Code.ALREADY_DONE: 32>, 'INVALID_DATA': <Result_Code.INVALID_DATA: 2147516416>, 'OPERATION_FAIL': <Result_Code.OPERATION_FAIL: 2147516417>, 'OPERATION_TIMEOUT': <Result_Code.OPERATION_TIMEOUT: 2147516418>, 'OPERATION_STOP': <Result_Code.OPERATION_STOP: 2147516419>, 'OPERATION_NOT_SUPPORT': <Result_Code.OPERATION_NOT_SUPPORT: 2147516420>, 'FORMAT_NOT_SUPPORT': <Result_Code.FORMAT_NOT_SUPPORT: 2147516421>, 'INSUFFICIENT_MEMORY': <Result_Code.INSUFFICIENT_MEMORY: 2147516422>, 'UNKNOWN': <Result_Code.UNKNOWN: 2147516423>}
     pass
 class Status_Code():
@@ -197,9 +197,9 @@ class Status_Code():
         """
         :type: int
         """
-    ERROR: FastRPLidar.Status_Code # value = <Status_Code.ERROR: 2>
-    OK: FastRPLidar.Status_Code # value = <Status_Code.OK: 0>
-    UNKNOWN: FastRPLidar.Status_Code # value = <Status_Code.UNKNOWN: 3>
-    WARNING: FastRPLidar.Status_Code # value = <Status_Code.WARNING: 1>
+    ERROR: FastPyRpLidar.Status_Code # value = <Status_Code.ERROR: 2>
+    OK: FastPyRpLidar.Status_Code # value = <Status_Code.OK: 0>
+    UNKNOWN: FastPyRpLidar.Status_Code # value = <Status_Code.UNKNOWN: 3>
+    WARNING: FastPyRpLidar.Status_Code # value = <Status_Code.WARNING: 1>
     __members__: dict # value = {'OK': <Status_Code.OK: 0>, 'WARNING': <Status_Code.WARNING: 1>, 'ERROR': <Status_Code.ERROR: 2>, 'UNKNOWN': <Status_Code.UNKNOWN: 3>}
     pass

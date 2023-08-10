@@ -1,4 +1,4 @@
-.. automodule:: FastRPLidar
+.. automodule:: FastPyRpLidar
    :imported-members:
    :members:
    :undoc-members:

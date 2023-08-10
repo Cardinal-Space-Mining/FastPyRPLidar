@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'FastRPLidar'
+project = 'FastPyRpLidar'
 copyright = '2023, William Mosier'
 author = 'William Mosier'
 release = '1.0'

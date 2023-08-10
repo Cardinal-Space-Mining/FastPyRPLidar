@@ -12,13 +12,13 @@ def find_stubs(package):
 
 
 setup(
-    name='FastRPLidar-stubs',
-    maintainer="FastRPLidar Developers",
+    name='FastPyRpLidar-stubs',
+    maintainer="FastPyRpLidar Developers",
     maintainer_email="example@python.org",
-    description="PEP 561 type stubs for FastRPLidar",
+    description="PEP 561 type stubs for FastPyRpLidar",
     version='1.0',
-    packages=['FastRPLidar-stubs'],
+    packages=['FastPyRpLidar-stubs'],
     # PEP 561 requires these
-    install_requires=['FastRPLidar'],
-    package_data=find_stubs('FastRPLidar-stubs'),
+    install_requires=['FastPyRpLidar'],
+    package_data=find_stubs('FastPyRpLidar-stubs'),
 )

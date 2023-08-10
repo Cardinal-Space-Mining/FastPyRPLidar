@@ -1,18 +1,20 @@
-#include <string>  //std::string
-#include <utility> //std::pair
+#include <string>  				//std::string
+#include <utility> 				//std::pair
+#include <cstdint>				//std::uint8_t
+#include <memory>               //std::unique_ptr
 
-#include "sl_lidar.h" //RPLIDAR sdk
-#include "sl_lidar_driver.h"
+#include "sl_lidar.h" 			//sl::IChannel
+#include "sl_lidar_driver.h"	//sl::ILidarDriver
 
-// Creating a class to manage everything
-class PyLidar
+// The responsability of this class is to interface to the slamtek library and provide easy access to the data of a hardwired lidar
+class Lidar
 {
-public:
+public: //Classes and structs
 	typedef struct lidar_sample
 	{
 		double angle;	 // Degrees
 		double distance; // Meters
-		int quality;	 //[0,255]
+		std::uint8_t quality;	 //[0,255]
 
 		lidar_sample(sl_lidar_response_measurement_node_hq_t &node);
 		lidar_sample() = default;
@@ -22,13 +24,12 @@ public:
 	{
 		double x; //X pos in meters
 		double y; //Y pos in meters
+		std::uint8_t quality;	 //[0,255]
 
 		bool operator==(const point& other) const;
 
 		point(sl_lidar_response_measurement_node_hq_t &node);
 		point() = default;
-
-		static std::size_t deduplicate_array(point* arr, std::size_t length);
 
 	private:
 		static double generate_x(sl_lidar_response_measurement_node_hq_t &node);
@@ -50,36 +51,6 @@ public:
 		UNKNOWN
 	};
 
-	inline constexpr static RPLidar_Result_Code from_sl_result(sl_result res)
-	{
-		switch (res)
-		{
-		case SL_RESULT_OK:
-			return RPLidar_Result_Code::OK;
-
-		case SL_RESULT_FAIL_BIT:
-			return RPLidar_Result_Code::FAIL_BIT;
-		case SL_RESULT_ALREADY_DONE:
-			return RPLidar_Result_Code::ALREADY_DONE;
-		case SL_RESULT_INVALID_DATA:
-			return RPLidar_Result_Code::INVALID_DATA;
-		case SL_RESULT_OPERATION_FAIL:
-			return RPLidar_Result_Code::OPERATION_FAIL;
-		case SL_RESULT_OPERATION_TIMEOUT:
-			return RPLidar_Result_Code::OPERATION_TIMEOUT;
-		case SL_RESULT_OPERATION_STOP:
-			return RPLidar_Result_Code::OPERATION_STOP;
-		case SL_RESULT_OPERATION_NOT_SUPPORT:
-			return RPLidar_Result_Code::OPERATION_NOT_SUPPORT;
-		case SL_RESULT_FORMAT_NOT_SUPPORT:
-			return RPLidar_Result_Code::FORMAT_NOT_SUPPORT;
-		case SL_RESULT_INSUFFICIENT_MEMORY:
-			return RPLidar_Result_Code::INSUFFICIENT_MEMORY;
-		default:
-			return RPLidar_Result_Code::UNKNOWN;
-		}
-	}
-
 	enum class RPLidar_Status_Code : int32_t
 	{
 		OK = (int32_t)SL_LIDAR_STATUS_OK,
@@ -88,27 +59,19 @@ public:
 		UNKNOWN
 	};
 
-	inline constexpr static RPLidar_Status_Code from_i32(int32_t code)
-	{
-		switch (code)
-		{
-		case SL_LIDAR_STATUS_OK:
-			return RPLidar_Status_Code::OK;
 
-		case SL_LIDAR_STATUS_WARNING:
-			return RPLidar_Status_Code::WARNING;
-		case SL_LIDAR_STATUS_ERROR:
-			return RPLidar_Status_Code::ERROR;
-		default:
-			return RPLidar_Status_Code::UNKNOWN;
-		}
-	}
-
+public: //Ctor Dtor
 	// Here the driver will be created and the device will be connected
-	PyLidar(std::string my_port, uint32_t baudrate);
-	~PyLidar();
+	Lidar(std::string my_port, uint32_t baudrate);
+	~Lidar();
 
-	// stopping the motor
+private: //Member variable initialization methods
+	sl_lidar_response_device_info_t init_device_info();
+
+	std::string init_mac_address();
+
+public: //Methods
+
 	void stop_motor();
 
 	void start_motor();
@@ -123,7 +86,7 @@ public:
 
 	std::string to_string() const;
 
-	std::string mac_addr();
+	std::string mac_addr() const;
 
 	std::pair<RPLidar_Status_Code, RPLidar_Result_Code> get_health();
 
@@ -131,21 +94,29 @@ public:
 	 * This function will be used in fetching the scan data
 	 * The output is a vector of lidar_samples.
 	 * */
-	std::pair<lidar_sample *, std::size_t> get_scan_as_lidar_samples(bool filter_quality = false);
+	std::pair<lidar_sample *, std::size_t> get_scan_as_lidar_samples();
 
 	/*
 	 * Returns scan data in the form of x-y pairs
 	 * */
-	std::pair<point *, std::size_t> get_scan_as_xy(bool filter_quality = false);
+	std::pair<point *, std::size_t> get_scan_as_xy();
 
-private:
-	static constexpr size_t MAX_SCAN_NODES = 8192; // Defined in the internal section of the RPLidar library
+private: //Class Constants
 
-	sl::IChannel *const channel;
+	// It is defined in the internal section of the RPLidar library
+	// But it is not exported in the include headers
+	static constexpr size_t MAX_SCAN_NODES = 8192; 
 
-	sl::ILidarDriver *const drv;
+private: //Member Variables
 
-	const std::string com_port;
+	const std::unique_ptr<sl::IChannel> m_channel;
 
-	sl_lidar_response_device_info_t device_info;
+	const std::unique_ptr<sl::ILidarDriver> m_driver;
+
+	const sl_lidar_response_device_info_t m_device_info;
+
+	//Max size of mac address is 17 chars
+	const std::string m_mac_address;
+
+	const std::string m_com_port;
 };

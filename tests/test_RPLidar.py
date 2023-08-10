@@ -3,7 +3,7 @@ import unittest
 import numpy
 import time
 
-from FastRPLidar import RPLidar
+from FastPyRpLidar import RPLidar
 
 
 class TestRPLidar(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestRPLidar(unittest.TestCase):
     def test_scan(self):
         l = RPLidar("/dev/ttyUSB0",1000000)
         l.start_motor()
-        l.get_scanline_xy(False)
+        l.get_scanline_xy()
 
 
 

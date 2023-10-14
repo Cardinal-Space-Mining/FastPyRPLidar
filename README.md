@@ -44,9 +44,12 @@ It exposes:
 
 
 # Installation
-1. Download this repository
-2. Navigate to the top level of the repository
-3. Execute  `pip install ./`
+* Manual:
+  1. Download this repository
+  2. Navigate to the top level of the repository
+  3. Execute  `pip install ./`
+* Pip:
+   1. `pip install git+https://github.com/Cardinal-Space-Mining/FastPyRPLidar.git`
 
 # Documentation
 1. Download this repository

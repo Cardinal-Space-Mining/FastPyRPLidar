@@ -48,8 +48,10 @@ It exposes:
   1. Download this repository
   2. Navigate to the top level of the repository
   3. Execute  `pip install ./`
-* Pip:
+* Pip and git installed:
    1. `pip install git+https://github.com/Cardinal-Space-Mining/FastPyRPLidar.git`
+* Only pip installed
+    1. `pip install https://github.com/Cardinal-Space-Mining/FastPyRPLidar/tarball/master`
 
 # Documentation
 1. Download this repository

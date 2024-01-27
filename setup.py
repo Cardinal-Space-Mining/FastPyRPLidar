@@ -113,7 +113,7 @@ setup(
     description="A light weight and fast set of python bindings to the SlamTek RPLidar SDK",
     long_description="",
     ext_modules=ext_modules,
-    extras_require={"test": "pytest"},
+    #extras_require={"test": "pytest"}, Breaks stuff. :(
     test_suite="tests",
     cmdclass={"build_ext": build_ext},
     zip_safe=False,

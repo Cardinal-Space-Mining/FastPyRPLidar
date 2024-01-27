@@ -100,7 +100,7 @@ ext_modules = [
         include_dirs=["./src", *Slamtek_SDK_include_path],
         define_macros=[('VERSION_INFO', __version__)],
         extra_objects=[make_RPLidar_SDK()],
-        cxx_std = "c++14"
+        cxx_std = "14"
     ),
 ]
 

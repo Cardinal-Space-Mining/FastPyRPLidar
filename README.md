@@ -43,6 +43,7 @@ It exposes:
       * quality (range[0,255])
 # Requirements
 * C++ compiler (GCC) reccomended
+* Building Documentation requires Sphinx
 
 # Installation
 * Manual:

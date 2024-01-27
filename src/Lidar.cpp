@@ -5,6 +5,7 @@
 #include <vector>    //std::vector
 #include <cstdio>    //std::snprintf
 #include <algorithm> //std::find
+#include <cstring>   //std::strlen
 
 #include "Lidar.h"
 namespace {
@@ -96,8 +97,8 @@ namespace
         {
             char error_message[2048] = {};
 
-            snprintf(error_message + strlen(error_message),
-                     sizeof(error_message) - strlen(error_message),
+            std::snprintf(error_message + std::strlen(error_message),
+                     sizeof(error_message) - std::strlen(error_message),
                      "%s. Reason: %s.",
                      message,
                      to_string(res));

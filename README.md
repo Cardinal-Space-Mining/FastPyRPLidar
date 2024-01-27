@@ -41,7 +41,8 @@ It exposes:
       * x (meters from lidar)
       * y (meters from lidar)
       * quality (range[0,255])
-
+# Requirements
+* C++ compiler (GCC) reccomended
 
 # Installation
 * Manual:

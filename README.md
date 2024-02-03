@@ -63,4 +63,7 @@ It exposes:
 
 # Troubleshooting
 1. Lidar refuses to connect (Linux):
-    * Try `sudo chmod a+rw /dev/ttyUSB0` (or whatever USB device you are using). Your os may be blocking access to the USB device.
+    * Try `sudo chmod a+rw /dev/ttyUSB0` (or whatever USB device you are using). Your OS may be blocking access to the USB device.
+2. Lidar connection times out during constructor with the message `Could not retrieve device data during connection` or `Could not connect to Lidar`
+    * Try `sudo chmod a+rw /dev/ttyUSB0` (or whatever USB device you are using). Your OS may be blocking access to the USB device.
+    * Validate that the Lidar is getting at least 4A of USB current. 2A @ 5V from barrel jack and 2A @5V from USB in.

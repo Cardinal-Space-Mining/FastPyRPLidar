@@ -146,9 +146,15 @@ std::string Lidar::init_mac_address()
     }
 
     char arr[20] = {}; //Max size of Mac Address is 17 chars
+
+    try{
     error_chk<std::runtime_error>(
         m_driver->getDeviceMacAddr((sl_u8 *)arr),
         "Failed to retrieve mac address");
+    }catch(std::runtime_error){
+        return "UNKNOWN_MAC";
+    }
+
 
     return std::string(arr);
 }

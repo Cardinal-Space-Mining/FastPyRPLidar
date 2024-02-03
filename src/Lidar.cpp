@@ -153,8 +153,27 @@ std::string Lidar::init_mac_address()
     return std::string(arr);
 }
 
+
+sl::IChannel* open_channel(std::string& my_port, uint32_t baudrate){
+    sl::Result<sl::IChannel*> channel = sl::createSerialPortChannel(my_port, baudrate);
+
+    error_chk<std::runtime_error>(channel,"Error opening Serial Port Channel!");
+
+    return *channel;
+
+}
+
+sl::ILidarDriver* open_lidar_driver(){
+    sl::Result<sl::ILidarDriver*> err_res = sl::createLidarDriver();
+
+    error_chk<std::runtime_error>(err_res,"Error opening Lidar Driver!");
+
+    return *err_res;
+
+}
+
 // Create the constructor: Here the driver will be created.
-Lidar::Lidar(std::string my_port, uint32_t baudrate) : m_channel(*sl::createSerialPortChannel(my_port, baudrate)), m_driver(*sl::createLidarDriver()), m_device_info(init_device_info()), m_mac_address(init_mac_address()), m_com_port(my_port)
+Lidar::Lidar(std::string my_port, uint32_t baudrate) : m_channel(open_channel(my_port, baudrate)), m_driver(open_lidar_driver()), m_device_info(init_device_info()), m_mac_address(init_mac_address()), m_com_port(my_port)
 {
 }
 
